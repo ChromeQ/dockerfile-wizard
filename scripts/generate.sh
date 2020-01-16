@@ -2,6 +2,8 @@
 
 echo "FROM circleci/node:8.16.0"
 
+echo "USER root"
+
 echo "RUN apt-get update"
 
 if [ ! -e $RUBY_VERSION_NUM ] ; then
@@ -133,3 +135,5 @@ RUN apt-get -y install libgconf-2-4 \
   && mv chromedriver /usr/local/bin/chromedriver \
   && chmod +x /usr/local/bin/chromedriver"
 fi
+
+echo "USER circleci"
