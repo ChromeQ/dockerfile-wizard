@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "FROM buildpack-deps:$(awk -F'_' '{print tolower($2)}' <<< $LINUX_VERSION)"
+echo "FROM circleci/node:8.16.0"
 
 echo "RUN apt-get update"
 
@@ -14,17 +14,17 @@ if [ ! -e $RUBY_VERSION_NUM ] ; then
     ruby -v"
 fi
 
-if [ ! -e $NODE_VERSION_NUM ] ; then
-    echo "RUN wget https://nodejs.org/dist/v$NODE_VERSION_NUM/node-v$NODE_VERSION_NUM.tar.gz && \
-    tar -xzvf node-v$NODE_VERSION_NUM.tar.gz && \
-    rm node-v$NODE_VERSION_NUM.tar.gz && \
-    cd node-v$NODE_VERSION_NUM && \
-    ./configure && \
-    make -j4 && \
-    make install && \
-    cd .. && \
-    rm -r node-v$NODE_VERSION_NUM"
-fi
+# if [ ! -e $NODE_VERSION_NUM ] ; then
+#     echo "RUN wget https://nodejs.org/dist/v$NODE_VERSION_NUM/node-v$NODE_VERSION_NUM.tar.gz && \
+#     tar -xzvf node-v$NODE_VERSION_NUM.tar.gz && \
+#     rm node-v$NODE_VERSION_NUM.tar.gz && \
+#     cd node-v$NODE_VERSION_NUM && \
+#     ./configure && \
+#     make -j4 && \
+#     make install && \
+#     cd .. && \
+#     rm -r node-v$NODE_VERSION_NUM"
+# fi
 
 if [ ! -e $PYTHON_VERSION_NUM ] ; then
     echo "RUN wget https://www.python.org/ftp/python/$PYTHON_VERSION_NUM/Python-$PYTHON_VERSION_NUM.tgz && \
@@ -40,30 +40,31 @@ fi
 # fi
 
 if [ $JAVA = "true" ] ; then
-cat << EOF
-RUN if [ \$(grep 'VERSION_ID="8"' /etc/os-release) ] ; then \\
-    echo "deb http://ftp.debian.org/debian jessie-backports main" >> /etc/apt/sources.list && \\
-    apt-get update && apt-get -y install -t jessie-backports openjdk-8-jdk ca-certificates-java \\
-; elif [ \$(grep 'VERSION_ID="9"' /etc/os-release) ] ; then \\
-		apt-get update && apt-get -y -q --no-install-recommends install -t stable openjdk-8-jdk ca-certificates-java \\
-; elif [ \$(grep 'VERSION_ID="14.04"' /etc/os-release) ] ; then \\
-		apt-get update && \\
-    apt-get --force-yes -y install software-properties-common python-software-properties && \\
-    echo | add-apt-repository -y ppa:webupd8team/java && \\
-    apt-get update && \\
-    echo debconf shared/accepted-oracle-license-v1-1 select true | debconf-set-selections && \\
-    echo debconf shared/accepted-oracle-license-v1-1 seen true | debconf-set-selections && \\
-    apt-get -y install oracle-java8-installer \\
-; elif [ \$(grep 'VERSION_ID="16.04"' /etc/os-release) ] ; then \\
-    apt-get update && \\
-    apt-get --force-yes -y install software-properties-common python-software-properties && \\
-    echo | add-apt-repository -y ppa:webupd8team/java && \\
-    apt-get update && \\
-    echo debconf shared/accepted-oracle-license-v1-1 select true | debconf-set-selections && \\
-    echo debconf shared/accepted-oracle-license-v1-1 seen true | debconf-set-selections && \\
-    apt-get -y install oracle-java8-installer \\
-; fi
-EOF
+echo "RUN apt-get -y install openjdk-8-jdk"
+# cat << EOF
+# RUN if [ \$(grep 'VERSION_ID="8"' /etc/os-release) ] ; then \\
+#     echo "deb http://ftp.debian.org/debian jessie-backports main" >> /etc/apt/sources.list && \\
+#     apt-get update && apt-get -y install -t jessie-backports openjdk-8-jdk ca-certificates-java \\
+# ; elif [ \$(grep 'VERSION_ID="9"' /etc/os-release) ] ; then \\
+# 		apt-get update && apt-get -y -q --no-install-recommends install -t stable openjdk-8-jdk ca-certificates-java \\
+# ; elif [ \$(grep 'VERSION_ID="14.04"' /etc/os-release) ] ; then \\
+# 		apt-get update && \\
+#     apt-get --force-yes -y install software-properties-common python-software-properties && \\
+#     echo | add-apt-repository -y ppa:webupd8team/java && \\
+#     apt-get update && \\
+#     echo debconf shared/accepted-oracle-license-v1-1 select true | debconf-set-selections && \\
+#     echo debconf shared/accepted-oracle-license-v1-1 seen true | debconf-set-selections && \\
+#     apt-get -y install oracle-java8-installer \\
+# ; elif [ \$(grep 'VERSION_ID="16.04"' /etc/os-release) ] ; then \\
+#     apt-get update && \\
+#     apt-get --force-yes -y install software-properties-common python-software-properties && \\
+#     echo | add-apt-repository -y ppa:webupd8team/java && \\
+#     apt-get update && \\
+#     echo debconf shared/accepted-oracle-license-v1-1 select true | debconf-set-selections && \\
+#     echo debconf shared/accepted-oracle-license-v1-1 seen true | debconf-set-selections && \\
+#     apt-get -y install oracle-java8-installer \\
+# ; fi
+# EOF
 fi
 
 if [ $MYSQL_CLIENT = "true" ] ; then
