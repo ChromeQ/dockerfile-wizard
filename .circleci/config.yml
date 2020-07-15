@@ -55,13 +55,14 @@ jobs:
   test_image:
     docker:
       - image: $DOCKER_USERNAME/lms:node-12.16.3_openjdk-8
+        auth:
+          username: $DOCKERHUB_USERNAME
+          password: $DOCKERHUB_PASSWORD
         environment:
           <<: *image_config
 
     steps:
       - checkout
-
-      - run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
 
       - run:
           name: start Xvfb for phantomjs test
