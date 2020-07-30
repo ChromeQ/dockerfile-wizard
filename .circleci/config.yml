@@ -13,13 +13,15 @@ image_config: &image_config
   # make sure you also add the values of your IMAGE_NAME & IMAGE_TAG variables
   # to the `test_image` job (line 55)
 
-  LINUX_VERSION: DEBIAN_JESSIE
+  LINUX_VERSION: UBUNTU_XENIAL
 
   # RUBY_VERSION_NUM: # pick a version from https://cache.ruby-lang.org/pub/ruby
 
   NODE_VERSION_NUM: 12.16.3
 
   # PYTHON_VERSION_NUM: # pick a version from https://python.org/ftp/python
+
+  GIT: true
 
   JAVA: true
 

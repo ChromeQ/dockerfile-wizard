@@ -6,6 +6,11 @@ echo "USER root"
 
 echo "RUN apt-get update"
 
+if [ $GIT = "true" ] ; then
+    echo "RUN apt-get -y install git"
+    echo "RUN git --version"
+fi
+
 if [ ! -e $RUBY_VERSION_NUM ] ; then
     echo "RUN apt-get install -y libssl-dev && wget http://ftp.ruby-lang.org/pub/ruby/$(awk -F'.' '{ print $1"."$2 }' <<< $RUBY_VERSION_NUM)/ruby-$RUBY_VERSION_NUM.tar.gz && \
     tar -xzvf ruby-$RUBY_VERSION_NUM.tar.gz && \
@@ -42,7 +47,7 @@ fi
 # fi
 
 if [ $JAVA = "true" ] ; then
-echo "RUN apt-get -y install openjdk-8-jdk"
+    echo "RUN apt-get -y install openjdk-8-jdk"
 # cat << EOF
 # RUN if [ \$(grep 'VERSION_ID="8"' /etc/os-release) ] ; then \\
 #     echo "deb http://ftp.debian.org/debian jessie-backports main" >> /etc/apt/sources.list && \\
