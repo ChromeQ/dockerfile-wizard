@@ -7,6 +7,7 @@ echo "USER root"
 echo "RUN apt-get update"
 
 if [ $GIT = "true" ] ; then
+    echo "RUN apt-get install -y software-properties-common"
     echo "RUN add-apt-repository ppa:git-core/ppa"
     echo "RUN apt-get update"
     echo "RUN apt-get -y install git"
