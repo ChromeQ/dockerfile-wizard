@@ -7,10 +7,10 @@ echo "USER root"
 echo "RUN apt-get update"
 
 if [ $GIT = "true" ] ; then
-    echo "RUN apt-get install -y software-properties-common"
-    echo "RUN add-apt-repository ppa:git-core/ppa"
-    echo "RUN apt-get update"
-    echo "RUN apt-get -y install git"
+    echo "RUN apt-get install -y software-properties-common build-essential make libssl-dev libghc-zlib-dev libcurl4-gnutls-dev libexpat1-dev gettext unzip"
+    echo "RUN wget https://github.com/git/git/archive/v2.25.1.zip -O latestgit.zip"
+    echo "RUN unzip latestgit.zip"
+    echo "RUN cd git-2.25.1; make prefix=/usr/local all; make prefix=/usr/local install"
     echo "RUN git --version"
 fi
 
