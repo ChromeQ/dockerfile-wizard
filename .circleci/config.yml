@@ -58,8 +58,8 @@ jobs:
     docker:
       - image: $DOCKER_USERNAME/lms:node-12.18.3_openjdk-8
         auth:
-          username: $DOCKERHUB_USERNAME
-          password: $DOCKERHUB_PASSWORD
+          username: $DOCKER_USERNAME
+          password: $DOCKER_PASSWORD
         environment:
           <<: *image_config
 
