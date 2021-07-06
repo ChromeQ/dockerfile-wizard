@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "FROM circleci/node:12.18.3"
+echo "FROM cimg/node:12.22.1"
 
 echo "USER root"
 
